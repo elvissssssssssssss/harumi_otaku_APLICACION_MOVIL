@@ -15,6 +15,8 @@ static const profileTracking = 'profile_tracking';
   static const checkout = 'checkout';
   static const orderConfirmation = 'order_confirmation';
   static const pendienteValidacion = '/pendiente-validacion';
+   static const misPedidos = 'mis_pedidos';
+  static const pedidoDetalle = 'pedido_detalle';
   
 
 }

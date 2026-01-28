@@ -12,6 +12,9 @@ import '../screens/catalog/product_detail_screen.dart';
 import '../screens/cart/cart_screen.dart';
 import '../screens/payment/yape_voucher_screen.dart';
 import '../screens/payment/pendiente_validacion_screen.dart';
+import '../screens/orders/mis_pedidos_screen.dart';
+import '../screens/orders/pedido_detalle_screen.dart';
+import '../screens/profile/profile_tracking_screen.dart'; // NUEVO
 
 
 class AppRouter {
@@ -46,6 +49,24 @@ class AppRouter {
 case AppRoutes.pendienteValidacion:
   return MaterialPageRoute(
     builder: (_) => const PendienteValidacionScreen(),
+    settings: settings,
+  );
+
+ case AppRoutes.misPedidos:
+        return MaterialPageRoute(
+          builder: (_) => const MisPedidosScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.pedidoDetalle:
+        final ordenId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => PedidoDetalleScreen(ordenId: ordenId),
+          settings: settings,
+        );
+case AppRoutes.profileTracking:
+  return MaterialPageRoute(
+    builder: (_) => const ProfileTrackingScreen(),
     settings: settings,
   );
 

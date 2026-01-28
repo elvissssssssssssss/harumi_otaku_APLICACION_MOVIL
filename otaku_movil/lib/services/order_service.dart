@@ -1,5 +1,10 @@
 import 'package:dio/dio.dart';
+
 import '../models/orden_create_response.dart';
+import '../models/orden_detalle.dart';
+import '../models/orden_estado_historial.dart';
+import '../models/orden_resumen.dart';
+
 import 'api_client.dart';
 
 class OrderService {
@@ -14,6 +19,7 @@ class OrderService {
         'T${two(x.hour)}:${two(x.minute)}:${two(x.second)}.${three(x.millisecond)}';
   }
 
+  // ✅ Mantener tal cual para no romper checkout
   Future<OrdenCreateResponse> crearOrden({
     required int usuarioId,
     required DateTime pickupAt,
@@ -21,8 +27,47 @@ class OrderService {
     final res = await _dio.post(
       '/api/ordenes',
       queryParameters: {'usuarioId': usuarioId},
-      data: {'pickupAt': _toNaiveIsoLocal(pickupAt)}, // hora Perú “tal cual”
+      data: {'pickupAt': _toNaiveIsoLocal(pickupAt)},
     );
     return OrdenCreateResponse.fromJson(res.data as Map<String, dynamic>);
+  }
+
+  // ✅ GET /api/ordenes?usuarioId=#
+  Future<List<OrdenResumen>> getMisOrdenes({required int usuarioId}) async {
+    final res = await _dio.get(
+      '/api/ordenes',
+      queryParameters: {'usuarioId': usuarioId},
+    );
+    final list = (res.data as List).cast<dynamic>();
+    return list
+        .map((e) => OrdenResumen.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  // ✅ GET /api/ordenes/{id}?usuarioId=#
+  Future<OrdenDetalle> getOrdenDetalle({
+    required int ordenId,
+    required int usuarioId,
+  }) async {
+    final res = await _dio.get(
+      '/api/ordenes/$ordenId',
+      queryParameters: {'usuarioId': usuarioId},
+    );
+    return OrdenDetalle.fromJson(res.data as Map<String, dynamic>);
+  }
+
+  // ✅ GET /api/ordenes/{id}/historial-estados?usuarioId=#
+  Future<List<OrdenEstadoHistorial>> getHistorialEstados({
+    required int ordenId,
+    required int usuarioId,
+  }) async {
+    final res = await _dio.get(
+      '/api/ordenes/$ordenId/historial-estados',
+      queryParameters: {'usuarioId': usuarioId},
+    );
+    final list = (res.data as List).cast<dynamic>();
+    return list
+        .map((e) => OrdenEstadoHistorial.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

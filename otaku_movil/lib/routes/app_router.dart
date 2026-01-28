@@ -1,74 +1,66 @@
 import 'package:flutter/material.dart';
 
-import '../screens/auth/welcome_screen.dart';
+import '../routes/app_routes.dart';
+
 import '../screens/auth/splash_screen.dart';
-import 'app_routes.dart';
-import '../screens/auth/login_screen.dart'; // <-- crea este archivo
-// Importa tu CatalogoScreen real cuando lo tengas en su carpeta:
-// import '../screens/catalog/catalogo_screen.dart';
+import '../screens/auth/welcome_screen.dart';
+import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
+
+import '../screens/home/home_shell.dart';
+import '../screens/catalog/product_detail_screen.dart';
+import '../screens/cart/cart_screen.dart';
+import '../screens/payment/yape_voucher_screen.dart';
+import '../screens/payment/pendiente_validacion_screen.dart';
 
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.splash:
-        return MaterialPageRoute(
-          builder: (_) => const SplashScreen(),
-          settings: settings,
-        );
+        return MaterialPageRoute(builder: (_) => const SplashScreen(), settings: settings);
 
-case AppRoutes.login:
-  return MaterialPageRoute(
-    builder: (_) => const LoginScreen(),
-    settings: settings,
-  );  
-  case AppRoutes.register:
-  return MaterialPageRoute(
-    builder: (_) => const RegisterScreen(),
-    settings: settings,
-  );      
       case AppRoutes.welcome:
+        return MaterialPageRoute(builder: (_) => const WelcomeScreen(), settings: settings);
+
+      case AppRoutes.login:
+        return MaterialPageRoute(builder: (_) => const LoginScreen(), settings: settings);
+
+      case AppRoutes.register:
+        return MaterialPageRoute(builder: (_) => const RegisterScreen(), settings: settings);
+
+      case AppRoutes.home:
+        final args = (settings.arguments as Map?) ?? {};
+        final initialTab = (args['tab'] as int?) ?? 0; // 0=catalogo,1=carrito,2=pago,3=perfil
         return MaterialPageRoute(
-          builder: (_) => const WelcomeScreen(),
+          builder: (_) => HomeShell(initialTab: initialTab),
           settings: settings,
         );
 
-      case AppRoutes.catalogo:
-        // reemplaza esto por tu CatalogoScreen real
+      case AppRoutes.productDetail:
+        final productId = settings.arguments as int;
         return MaterialPageRoute(
-          builder: (_) => const _CatalogoPlaceholder(),
+          builder: (_) => ProductDetailScreen(productId: productId),
           settings: settings,
         );
+case AppRoutes.pendienteValidacion:
+  return MaterialPageRoute(
+    builder: (_) => const PendienteValidacionScreen(),
+    settings: settings,
+  );
+
+
+      case AppRoutes.cart:
+        return MaterialPageRoute(builder: (_) => const CartScreen(), settings: settings);
+
+      case AppRoutes.checkout:
+        return MaterialPageRoute(builder: (_) => const YapeVoucherScreen(), settings: settings);
 
       default:
         return MaterialPageRoute(
-          builder: (_) => const _NotFoundScreen(),
+          builder: (_) => const Scaffold(body: Center(child: Text('Ruta no encontrada'))),
           settings: settings,
         );
     }
   }
-}
-
-class _CatalogoPlaceholder extends StatelessWidget {
-  const _CatalogoPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('CATÁLOGO (placeholder)')),
-    );
-  }
-}
-
-class _NotFoundScreen extends StatelessWidget {
-  const _NotFoundScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Ruta no encontrada')),
-    );
-  }
-  
 }

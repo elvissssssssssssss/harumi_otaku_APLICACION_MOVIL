@@ -50,11 +50,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (!mounted) return;
 
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        AppRoutes.catalogo,
-        (route) => false,
-      );
+     Navigator.pushNamedAndRemoveUntil(
+  context,
+  AppRoutes.home,
+  (route) => false,
+  arguments: {'tab': 3}, // abre directamente Perfil
+);
+
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

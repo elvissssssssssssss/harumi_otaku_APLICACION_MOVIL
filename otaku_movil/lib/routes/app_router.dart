@@ -10,12 +10,13 @@ import '../screens/auth/register_screen.dart';
 import '../screens/home/home_shell.dart';
 import '../screens/catalog/product_detail_screen.dart';
 import '../screens/cart/cart_screen.dart';
+
 import '../screens/payment/yape_voucher_screen.dart';
 import '../screens/payment/pendiente_validacion_screen.dart';
+
+// ✅ pedidos
 import '../screens/orders/mis_pedidos_screen.dart';
 import '../screens/orders/pedido_detalle_screen.dart';
-import '../screens/profile/profile_tracking_screen.dart'; // NUEVO
-
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -34,7 +35,7 @@ class AppRouter {
 
       case AppRoutes.home:
         final args = (settings.arguments as Map?) ?? {};
-        final initialTab = (args['tab'] as int?) ?? 0; // 0=catalogo,1=carrito,2=pago,3=perfil
+        final initialTab = (args['tab'] as int?) ?? 0;
         return MaterialPageRoute(
           builder: (_) => HomeShell(initialTab: initialTab),
           settings: settings,
@@ -46,13 +47,16 @@ class AppRouter {
           builder: (_) => ProductDetailScreen(productId: productId),
           settings: settings,
         );
-case AppRoutes.pendienteValidacion:
-  return MaterialPageRoute(
-    builder: (_) => const PendienteValidacionScreen(),
-    settings: settings,
-  );
 
- case AppRoutes.misPedidos:
+      case AppRoutes.pendienteValidacion:
+        return MaterialPageRoute(
+          builder: (_) => const PendienteValidacionScreen(),
+          settings: settings,
+        );
+
+      // ✅ ESTE es el que se abre desde ProfileScreen -> "Mis compras"
+      case AppRoutes.profileTracking:
+      case AppRoutes.misPedidos:
         return MaterialPageRoute(
           builder: (_) => const MisPedidosScreen(),
           settings: settings,
@@ -64,12 +68,6 @@ case AppRoutes.pendienteValidacion:
           builder: (_) => PedidoDetalleScreen(ordenId: ordenId),
           settings: settings,
         );
-case AppRoutes.profileTracking:
-  return MaterialPageRoute(
-    builder: (_) => const ProfileTrackingScreen(),
-    settings: settings,
-  );
-
 
       case AppRoutes.cart:
         return MaterialPageRoute(builder: (_) => const CartScreen(), settings: settings);

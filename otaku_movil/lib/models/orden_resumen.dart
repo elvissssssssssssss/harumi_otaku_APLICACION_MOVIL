@@ -6,16 +6,16 @@ class OrdenResumen {
   final num totalAmount;
 
   final int estadoActualId;
-  final String? estadoCodigo;   // viene null en la lista
-  final String? estadoNombre;   // viene null en la lista
+  final String? estadoCodigo;
+  final String? estadoNombre;
   final DateTime createdAt;
 
   final int itemsCount;
   final int itemsCantidadTotal;
   final num itemsSubtotalTotal;
 
-  final int? pagoId;            // viene null en la lista
-  final String? pagoEstado;     // viene null en la lista
+  final int? pagoId;
+  final String? pagoEstado;
   final String? voucherImagenUrl;
   final String? nroOperacion;
   final DateTime? paidAt;

@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'api_client.dart';
+import '../models/user_model.dart';
 
 class AuthService {
   final Dio _dio = ApiClient.dio;
 
+  // ✅ Register sigue devolviendo int (por ahora)
   Future<int> register({
     required String email,
     required String password,
@@ -20,7 +22,8 @@ class AuthService {
     return (res.data['id'] as num).toInt();
   }
 
-  Future<int> login({
+  // ✅ Login ahora devuelve User completo
+  Future<User> login({
     required String email,
     required String password,
   }) async {
@@ -29,6 +32,7 @@ class AuthService {
       'password': password,
     });
 
-    return (res.data['userId'] as num).toInt();
+    // Backend ahora devuelve: { id, email, nombre, rol, token }
+    return User.fromJson(res.data);
   }
 }

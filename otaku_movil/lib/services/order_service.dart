@@ -45,29 +45,35 @@ class OrderService {
   }
 
   // ✅ GET /api/ordenes/{id}?usuarioId=#
-  Future<OrdenDetalle> getOrdenDetalle({
-    required int ordenId,
-    required int usuarioId,
-  }) async {
-    final res = await _dio.get(
-      '/api/ordenes/$ordenId',
-      queryParameters: {'usuarioId': usuarioId},
-    );
-    return OrdenDetalle.fromJson(res.data as Map<String, dynamic>);
-  }
+ Future<OrdenDetalle> getOrdenDetalle({
+  required int ordenId,
+  required int usuarioId,
+}) async {
+  final res = await _dio.get(
+    '/api/ordenes/$ordenId',
+    queryParameters: {'usuarioId': usuarioId},
+  );
+  // ignore: avoid_print
+  print('DETALLE ORDEN $ordenId => ${res.data}');
+  return OrdenDetalle.fromJson(res.data as Map<String, dynamic>);
+}
+
 
   // ✅ GET /api/ordenes/{id}/historial-estados?usuarioId=#
-  Future<List<OrdenEstadoHistorial>> getHistorialEstados({
-    required int ordenId,
-    required int usuarioId,
-  }) async {
-    final res = await _dio.get(
-      '/api/ordenes/$ordenId/historial-estados',
-      queryParameters: {'usuarioId': usuarioId},
-    );
-    final list = (res.data as List).cast<dynamic>();
-    return list
-        .map((e) => OrdenEstadoHistorial.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
+Future<List<OrdenEstadoHistorial>> getHistorialEstados({
+  required int ordenId,
+  required int usuarioId,
+}) async {
+  final res = await _dio.get(
+    '/api/ordenes/$ordenId/historial-estados',
+    queryParameters: {'usuarioId': usuarioId},
+  );
+  // LOG
+  print('HISTORIAL ORDEN $ordenId => ${res.data}');
+  final list = (res.data as List).cast<dynamic>();
+  return list
+      .map((e) => OrdenEstadoHistorial.fromJson(e as Map<String, dynamic>))
+      .toList();
+}
+
 }
